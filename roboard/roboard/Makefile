@@ -1,0 +1,47 @@
+# Type
+#     make
+# to make RoBoIO library: libRBIO.a
+#
+
+ROBOIO_OBJECTS = io.o common.o pwm.o pwmdx.o rcservo.o spi.o spidx.o ad79x8.o i2c.o i2cdx.o com.o
+ROBOIO_COMMINC = libsrc/defines.h libsrc/io.h libsrc/common.h libsrc/roboard.h
+OPTIONS = -Wall -Wno-write-strings
+
+libRBIO.a : $(ROBOIO_OBJECTS)
+	ar rcs libRBIO.a $(ROBOIO_OBJECTS)
+
+io.o: libsrc/io.cpp $(ROBOIO_COMMINC)
+	gcc -c libsrc/io.cpp $(OPTIONS)
+
+common.o: libsrc/common.cpp $(ROBOIO_COMMINC)
+	gcc -c libsrc/common.cpp $(OPTIONS)
+
+rcservo.o: libsrc/rcservo.cpp libsrc/rcservo.h libsrc/pwm.h libsrc/pwmdx.h $(ROBOIO_COMMINC)
+	gcc -c libsrc/rcservo.cpp $(OPTIONS)
+
+pwm.o pwmdx.o: libsrc/pwm.cpp libsrc/pwmdx.cpp libsrc/pwm.h libsrc/pwmdx.h $(ROBOIO_COMMINC)
+	gcc -c libsrc/pwm.cpp $(OPTIONS)
+	gcc -c libsrc/pwmdx.cpp $(OPTIONS)
+
+spi.o spidx.o: libsrc/spi.cpp libsrc/spidx.cpp libsrc/spi.h libsrc/spidx.h $(ROBOIO_COMMINC)
+	gcc -c libsrc/spi.cpp $(OPTIONS)
+	gcc -c libsrc/spidx.cpp $(OPTIONS)
+
+ad79x8.o: libsrc/ad79x8.cpp libsrc/ad79x8.h libsrc/spi.h libsrc/spidx.h $(ROBOIO_COMMINC)
+	gcc -c libsrc/ad79x8.cpp $(OPTIONS)
+
+i2c.o i2cdx.o: libsrc/i2c.cpp libsrc/i2cdx.cpp libsrc/i2c.h libsrc/i2cdx.h $(ROBOIO_COMMINC)
+	gcc -c libsrc/i2c.cpp $(OPTIONS)
+	gcc -c libsrc/i2cdx.cpp $(OPTIONS)
+
+com.o: libsrc/com.cpp libsrc/com.h $(ROBOIO_COMMINC)
+	gcc -c libsrc/com.cpp $(OPTIONS)
+
+.PHONY : install clean
+
+install : libRBIO.a
+	\cp -f ./libRBIO.a /usr/lib
+
+clean :
+	-rm libRBIO.a $(ROBOIO_OBJECTS)
+

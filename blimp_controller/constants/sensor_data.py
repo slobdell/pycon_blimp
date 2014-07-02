@@ -1,0 +1,10 @@
+class SensorData:
+    PITCH = 7
+    ROLL = 8
+    AZIMUTH = 9
+    ALTITUDE = 10
+    LATITUDE = 11
+    LONGITUDE = 12
+    TARGET_ALTITUDE = 14
+    USING_AUTOPILOT = 22
+    SPEED = 23
